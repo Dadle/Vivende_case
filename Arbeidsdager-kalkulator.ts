@@ -48,7 +48,7 @@ class WorkdayCalculator {
 
   public calculateEndDate(startDate: string, increment: number): string {
     const date = this.parseStartDate(startDate);
-    const endDate = this.addWorkdays(date, increment);
+    const endDate = this.incrementWorkdays(date, increment);
     return this.formatDate(endDate);
   }
 
@@ -63,31 +63,70 @@ class WorkdayCalculator {
     return date;
   }
 
-  private addWorkdays(startDate: Date, increment: number): Date {
+  private incrementWorkdays(startDate: Date, increment: number): Date {
     const currentDate = new Date(startDate.getTime());
-    const workdayHours = this.workdayStop.getHours() - this.workdayStart.getHours()
+    const workdayHours = this.workdayStop.getHours() - this.workdayStart.getHours();
     let remainingdayIncrements = Math.floor(Math.abs(increment));
-    let remaininghourIncrements = Math.floor(Math.abs(increment % 1) * workdayHours);
-    let remainingminutesIncrements = Math.floor(Math.abs(increment % 1) * workdayHours);
+    const rawHours = Math.abs(increment % 1) * workdayHours;
+    const rawMinutes = rawHours % 1 * 60;
+    console.log("increment: " + increment);
+    console.log("rawDays: " + Math.floor(Math.abs(increment)));
+    console.log("rawHours: " + rawHours);
+    console.log("rawMinutes: " + rawMinutes);
+    let remaininghourIncrements = Math.floor(rawHours);
+    let remainingminutesIncrements = Math.floor(((Math.abs(increment % 1) * workdayHours) - remaininghourIncrements) * 60);
+
+    console.log("remaininghourIncrements: " + remaininghourIncrements);
+    console.log("remainingminutesIncrements: " + remainingminutesIncrements);
+    console.log("currentDate: " + currentDate)
     const incrementDirection = Math.sign(increment);
     console.log(remaininghourIncrements)
     console.log(incrementDirection)
     console.log(workdayHours)
 
-    while (remainingdayIncrements > 0) {
-      currentDate.setDate(currentDate.getDate() + incrementDirection);
+    console.log("")
+    console.log("Starting Days incrementation")
+    console.log("Current time is: " + currentDate)
+
+    while (remainingdayIncrements > 0) {      
       if (this.isWorkday(currentDate)) {
             remainingdayIncrements--;
       }
+      currentDate.setDate(currentDate.getDate() + incrementDirection);
+      //console.log("Remaining day increments: " + remainingdayIncrements)
+      //console.log("Current time is: " + currentDate)
     }
+    while (!this.isWorkday(currentDate)) { // In case the day we end up on is not a workday
+      currentDate.setDate(currentDate.getDate() + incrementDirection);
+      //console.log("Still not a workday")
+      //console.log("Current time is: " + currentDate)
+    }
+    console.log("Current time after days: " + currentDate)
+
+    console.log("")
+    console.log("Starting Hours incrementation")
 
     while (remaininghourIncrements > 0) {
-      currentDate.setHours(currentDate.getHours() + incrementDirection);
+      
       console.log("Remaining hour increments: " + remaininghourIncrements)
       console.log("Current time is: " + currentDate)
       if (this.isWorkingHours(currentDate)) {
             remaininghourIncrements--;
       }
+      currentDate.setHours(currentDate.getHours() + incrementDirection);
+    }
+
+    console.log("")
+    console.log("Starting minutes incrementation")
+
+    while (remainingminutesIncrements > 0) {
+      
+      //console.log("Remaining minutes increments: " + remainingminutesIncrements)
+      //console.log("Current time is: " + currentDate)
+      if (this.isWorkingHours(currentDate)) {
+            remainingminutesIncrements--;
+      }
+      currentDate.setMinutes(currentDate.getMinutes() + incrementDirection);
     }
 
     return currentDate;
@@ -103,23 +142,23 @@ class WorkdayCalculator {
 
       // Checking if time is before workday start
       if (currentHour < startHour) {
-            console.log("Outside working hours")
+            //console.log("Outside working hours")
             return false; // Outside working hours
       } else if (currentHour === startHour && currentMinutes < startMinutes) {
-            console.log("Outside working hours")
+            //console.log("Outside working hours")
             return false; // Outside working hours
       }      
 
       // Checking if time is after workday stop
       if (currentHour > stopHour) {
-            console.log("Outside working hours")
+            //console.log("Outside working hours")
             return false; // Outside working hours
       } else if (currentHour === stopHour && currentMinutes > stopMinutes) {
-            console.log("Outside working hours")
+            //console.log("Outside working hours")
             return false; // Outside working hours
       }
 
-      console.log("Inside working hours")
+      //console.log("Inside working hours")
       return true // Inside working hours
           
   }
@@ -127,12 +166,16 @@ class WorkdayCalculator {
   private isWorkday(date: Date): boolean {
     const day = date.getDay();
     if (day === 0 || day === 6) {
+      //console.log("Weekend")
       return false; // Weekend
     }
 
     if (this.isHoliday(date)) {
+      //console.log("Holiday")
       return false; // Holiday
     }
+
+    console.log("Workday")
 
     return true
   }
@@ -181,9 +224,13 @@ fs.readFile("test_cases.json", 'utf8', (err, data) => {
   try {
     const configList: Config[] = JSON.parse(data);
     configList.forEach((config) => {
+      if (config.Increment != -5.5){
+            //return;
+      }
       const calculator = new WorkdayCalculator(config);
       const endDate = calculator.calculateEndDate(config.StartDate, config.Increment);
       console.log(endDate);
+      console.log("")
     })
     
   } catch (parseError) {
