@@ -3,5 +3,14 @@
 {"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}],"Holidays":[{"Year":2004,"Month":5,"Day":27}],"StartDate":"24-05-2004 19:03","Increment":44.723656},
 {"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}],"Holidays":[{"Year":2004,"Month":5,"Day":27}],"StartDate":"24-05-2004 18:03","Increment":-6.7470217},
 {"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}],"Holidays":[{"Year":2004,"Month":5,"Day":27}],"StartDate":"24-05-2004 08:03","Increment":12.782709},
-{"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}],"Holidays":[{"Year":2004,"Month":5,"Day":27}],"StartDate":"24-05-2004 07:03","Increment":8.276628}
+{"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}],"Holidays":[{"Year":2004,"Month":5,"Day":27}],"StartDate":"24-05-2004 07:03","Increment":8.276628},
+{"WorkdayStart":{"Hours":12,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}],"Holidays":[{"Year":2004,"Month":5,"Day":27}],"StartDate":"24-05-2004 07:03","Increment":25},
+{"WorkdayStart":{"Hours":16,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}],"Holidays":[{"Year":2004,"Month":5,"Day":27}],"StartDate":"24-05-2004 07:03","Increment":486.25},
+{"WorkdayStart":{"Hours":8,"Minutes":30},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}],"Holidays":[{"Year":2004,"Month":5,"Day":27}],"StartDate":"24-05-2004 07:03","Increment":5.5},
+{"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":18,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}, {"Month":5,"Day":16}, {"Month":5,"Day":15}],"Holidays":[{"Year":2004,"Month":5,"Day":27}, {"Year":2004,"Month":5,"Day":25}, {"Year":2004,"Month":5,"Day":24}],"StartDate":"30-05-2004 07:03","Increment":-25.5},
+{"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}, {"Month":5,"Day":16}, {"Month":5,"Day":15}],"Holidays":[],"StartDate":"24-05-2004 07:03","Increment":8.276628},
+{"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[],"Holidays":[],"StartDate":"24-05-2004 07:03","Increment":8.276628},
+{"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}],"Holidays":[{"Year":2004,"Month":5,"Day":27}],"StartDate":"24-05-2016 18:05","Increment":-5.5},
+{"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":5,"Day":17}],"Holidays":[{"Year":2004,"Month":5,"Day":27}],"StartDate":"24-05-2004 18:05","Increment":0},
+{"WorkdayStart":{"Hours":8,"Minutes":0},"WorkdayStop":{"Hours":16,"Minutes":0},"RecurringHolidays":[{"Month":7,"Day":25}],"Holidays":[{"Year":2020,"Month":7,"Day":27}],"StartDate":"30-07-2020 18:05","Increment":-5.5}
 ]

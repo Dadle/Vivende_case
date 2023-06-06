@@ -1,5 +1,3 @@
-import fs from 'fs';
-
 interface Time {
   Hours: number;
   Minutes: number;
@@ -11,7 +9,7 @@ interface Holiday {
   Day: number;
 }
 
-interface Config {
+export interface Config {
   WorkdayStart: Time;
   WorkdayStop: Time;
   RecurringHolidays: Holiday[];
@@ -20,7 +18,7 @@ interface Config {
   Increment: number;
 }
 
-class WorkdayCalculator {
+export class WorkdayCalculator {
   private workdayStart: Date;
   private workdayStop: Date;
   private recurringHolidays: Date[];
@@ -209,34 +207,3 @@ class WorkdayCalculator {
     return `${day}-${month}-${year} ${hours}:${minutes}`;
   }
 }
-
-// Parsing command line arguments
-/*const args = process.argv.slice(2);
-const config: Config = JSON.parse(args[0]);
-const calculator = new WorkdayCalculator(config);
-const endDate = calculator.calculateEndDate(config.StartDate, config.Increment);
-console.log(endDate);*/
-
-
-fs.readFile("test_cases.json", 'utf8', (err, data) => {
-  if (err) {
-    console.error('Error reading JSON file:', err);
-    return;
-  }
-
-  try {
-    const configList: Config[] = JSON.parse(data);
-    configList.forEach((config) => {
-      if (config.Increment != -5.5){
-            //return;
-      }
-      const calculator = new WorkdayCalculator(config);
-      const endDate = calculator.calculateEndDate(config.StartDate, config.Increment);
-      console.log(endDate);
-      console.log("")
-    })
-    
-  } catch (parseError) {
-    console.error('Error parsing JSON:', parseError);
-  }
-});
