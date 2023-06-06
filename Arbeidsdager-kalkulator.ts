@@ -66,20 +66,23 @@ class WorkdayCalculator {
   private incrementWorkdays(startDate: Date, increment: number): Date {
     const currentDate = new Date(startDate.getTime());
     const workdayHours = this.workdayStop.getHours() - this.workdayStart.getHours();
+    const incrementDirection = Math.sign(increment);
     let remainingdayIncrements = Math.floor(Math.abs(increment));
-    const rawHours = Math.abs(increment % 1) * workdayHours;
-    const rawMinutes = rawHours % 1 * 60;
+    const rawHours = 0; //Math.abs(increment % 1) * workdayHours;
+    const rawMinutes = Math.abs(increment) % 1;
     console.log("increment: " + increment);
+    console.log("increment % 1: " + increment % 1);
     console.log("rawDays: " + Math.floor(Math.abs(increment)));
     console.log("rawHours: " + rawHours);
     console.log("rawMinutes: " + rawMinutes);
-    let remaininghourIncrements = Math.floor(rawHours);
-    let remainingminutesIncrements = Math.floor(((Math.abs(increment % 1) * workdayHours) - remaininghourIncrements) * 60);
+    let remaininghourIncrements = Math.floor(Math.abs(rawHours));
+    let remainingminutesIncrements = Math.floor(rawMinutes * 60 * workdayHours);
+    
 
     console.log("remaininghourIncrements: " + remaininghourIncrements);
     console.log("remainingminutesIncrements: " + remainingminutesIncrements);
     console.log("currentDate: " + currentDate)
-    const incrementDirection = Math.sign(increment);
+    
     console.log(remaininghourIncrements)
     console.log(incrementDirection)
     console.log(workdayHours)
@@ -175,7 +178,7 @@ class WorkdayCalculator {
       return false; // Holiday
     }
 
-    console.log("Workday")
+    //console.log("Workday")
 
     return true
   }
