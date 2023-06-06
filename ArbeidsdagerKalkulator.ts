@@ -16,6 +16,7 @@ export interface Config {
   Holidays: Holiday[];
   StartDate: string;
   Increment: number;
+  ExpectedResult: Holiday
 }
 
 export class WorkdayCalculator {
@@ -33,13 +34,13 @@ export class WorkdayCalculator {
 
     this.recurringHolidays = config.RecurringHolidays.map((holiday: Holiday) => {
       const recurringHoliday = new Date();
-      recurringHoliday.setMonth(holiday.Month - 1, holiday.Day);
+      recurringHoliday.setMonth(holiday.Month - 1, holiday.Day); // -1 to account for zero-based indexing for months
       return recurringHoliday;
     });
 
     this.holidays = config.Holidays.map((holiday) => {
       const fixedHoliday = new Date();
-      fixedHoliday.setFullYear(holiday.Year, holiday.Month - 1, holiday.Day);
+      fixedHoliday.setFullYear(holiday.Year, holiday.Month - 1, holiday.Day); // -1 to account for zero-based indexing for months
       return fixedHoliday;
     });
   }
@@ -66,68 +67,25 @@ export class WorkdayCalculator {
     const workdayHours = this.workdayStop.getHours() - this.workdayStart.getHours();
     const incrementDirection = Math.sign(increment);
     let remainingdayIncrements = Math.floor(Math.abs(increment));
-    const rawHours = 0; //Math.abs(increment % 1) * workdayHours;
-    const rawMinutes = Math.abs(increment) % 1;
-    console.log("increment: " + increment);
-    console.log("increment % 1: " + increment % 1);
-    console.log("rawDays: " + Math.floor(Math.abs(increment)));
-    console.log("rawHours: " + rawHours);
-    console.log("rawMinutes: " + rawMinutes);
-    let remaininghourIncrements = Math.floor(Math.abs(rawHours));
-    let remainingminutesIncrements = Math.floor(rawMinutes * 60 * workdayHours);
+    let remainingminutesIncrements = Math.floor(Math.abs(increment) % 1 * 60 * workdayHours);
     
-
-    console.log("remaininghourIncrements: " + remaininghourIncrements);
-    console.log("remainingminutesIncrements: " + remainingminutesIncrements);
-    console.log("currentDate: " + currentDate)
-    
-    console.log(remaininghourIncrements)
-    console.log(incrementDirection)
-    console.log(workdayHours)
-
-    console.log("")
-    console.log("Starting Days incrementation")
-    console.log("Current time is: " + currentDate)
 
     while (remainingdayIncrements > 0) {      
       if (this.isWorkday(currentDate)) {
             remainingdayIncrements--;
       }
       currentDate.setDate(currentDate.getDate() + incrementDirection);
-      //console.log("Remaining day increments: " + remainingdayIncrements)
-      //console.log("Current time is: " + currentDate)
     }
-    while (!this.isWorkday(currentDate)) { // In case the day we end up on is not a workday
-      currentDate.setDate(currentDate.getDate() + incrementDirection);
-      //console.log("Still not a workday")
-      //console.log("Current time is: " + currentDate)
-    }
-    console.log("Current time after days: " + currentDate)
-
-    console.log("")
-    console.log("Starting Hours incrementation")
-
-    while (remaininghourIncrements > 0) {
-      
-      console.log("Remaining hour increments: " + remaininghourIncrements)
-      console.log("Current time is: " + currentDate)
-      if (this.isWorkingHours(currentDate)) {
-            remaininghourIncrements--;
-      }
-      currentDate.setHours(currentDate.getHours() + incrementDirection);
-    }
-
-    console.log("")
-    console.log("Starting minutes incrementation")
-
+    
     while (remainingminutesIncrements > 0) {
-      
-      //console.log("Remaining minutes increments: " + remainingminutesIncrements)
-      //console.log("Current time is: " + currentDate)
       if (this.isWorkingHours(currentDate)) {
             remainingminutesIncrements--;
       }
       currentDate.setMinutes(currentDate.getMinutes() + incrementDirection);
+    }
+
+    while (!this.isWorkday(currentDate)) { // In case the day we end up on is not a workday
+      currentDate.setDate(currentDate.getDate() + incrementDirection);
     }
 
     return currentDate;
@@ -143,23 +101,18 @@ export class WorkdayCalculator {
 
       // Checking if time is before workday start
       if (currentHour < startHour) {
-            //console.log("Outside working hours")
             return false; // Outside working hours
       } else if (currentHour === startHour && currentMinutes < startMinutes) {
-            //console.log("Outside working hours")
             return false; // Outside working hours
       }      
 
       // Checking if time is after workday stop
       if (currentHour > stopHour) {
-            //console.log("Outside working hours")
             return false; // Outside working hours
       } else if (currentHour === stopHour && currentMinutes > stopMinutes) {
-            //console.log("Outside working hours")
             return false; // Outside working hours
       }
 
-      //console.log("Inside working hours")
       return true // Inside working hours
           
   }
@@ -167,16 +120,12 @@ export class WorkdayCalculator {
   private isWorkday(date: Date): boolean {
     const day = date.getDay();
     if (day === 0 || day === 6) {
-      //console.log("Weekend")
       return false; // Weekend
     }
 
     if (this.isHoliday(date)) {
-      //console.log("Holiday")
       return false; // Holiday
     }
-
-    //console.log("Workday")
 
     return true
   }
@@ -197,7 +146,7 @@ export class WorkdayCalculator {
     return false;
   }
 
-  private formatDate(date: Date): string {
+  public formatDate(date: Date): string {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
